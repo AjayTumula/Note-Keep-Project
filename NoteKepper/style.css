@@ -8,71 +8,76 @@
 
 body {
     background: #282e44;
-
 }
 
 .mainPage {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 80vh;
 }
 
-img {
-    width: 20%;
-}
-
 .pageTwo {
-    display: flex;
-    /* justify-content: space-between; */
+    height: 100vh;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .createNote {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: 20%;
-    justify-content: space-between;
-    padding: 1rem;
+    justify-content: space-evenly;
+    width: 30%;
+    margin: 1rem;
+    position: sticky;
 }
 
 .createNote img {
-    width: 90%;
+    height: 10vh;
+    width: 100%;
 }
 
-.createNote button {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
+/* cN button, cN divs */
 
 .noteInfo {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    width: 50%;
+    position: relative;
+}
+
+.noteDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    width: 80%;
-    color: white;
-    background: #02549e;
+    color: white;  
+    width: 30%;    
 }
 
-.noteInfo img {
-    height: 60vh;
-    width: 30%;
+.noteDescription img {
+    height: 40vh;
 }
 
-.noteInfo h6 {
-    margin: 1rem;
+.noteDescription h5 {
+    font-weight: bold;
+    margin: 0.8rem 0;
 }
 
-.noteInfo p {
-    
-    font-size: 7px;
+.noteDescription p {
+    font-size: 8px;
 }
 
+.noteCreation .createNote {
+   background: white;
+   padding: 1rem;
+   border-radius: 12px;
+}
 
+.createNote input, textarea {
+    border: none;
+    outline: none;
+    border-bottom: 0.5px solid black;
+    margin: 0.3rem;
+}
