@@ -18,7 +18,7 @@ body {
 }
 
 .pageTwo {
-    height: 100vh;
+    /* height: 100vh; */
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -43,36 +43,44 @@ body {
 .noteInfo {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 70%;
     position: relative;
+    background: #02549e;
 }
 
-.noteDescription {
+.fileInfo {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     color: white;  
-    width: 30%;    
 }
 
-.noteDescription img {
+.fileInfo img {
     height: 40vh;
 }
 
-.noteDescription h5 {
+.fileInfo h5 {
     font-weight: bold;
     margin: 0.8rem 0;
 }
 
-.noteDescription p {
+.fileInfo p {
     font-size: 8px;
+}
+
+.noteCreation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .noteCreation .createNote {
    background: white;
    padding: 1rem;
    border-radius: 12px;
+   width: 50%;
 }
 
 .createNote input, textarea {
@@ -81,3 +89,81 @@ body {
     border-bottom: 0.5px solid black;
     margin: 0.3rem;
 }
+
+.createNoteButton  button {
+    padding: 0.8rem;
+}
+
+#noteTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    height: 20vh;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+#noteTitle h5 {
+    font-weight: bold;
+    font-size: 4rem;
+    margin: 0 2rem;
+    color: #437cac;
+}
+
+#noteTitle .buttons button {
+   border: none;
+   background: none;
+   font-size: 1rem;
+   color: white;
+   padding: 1.5rem;
+   border-radius: 15px;
+}
+
+#noteTitle .buttons #newTaskButton { 
+    background: #02a89e;
+    margin: 3rem;
+}
+
+#noteTitle #deleteNote {
+    background: #ff5858;
+    margin: 4rem;
+}
+
+#noteDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: start;
+    margin: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    height: 40vh;
+}
+
+#noteDescription h4 {
+    margin: 0.2rem 0;
+    color: #437cac;
+}
+
+#taskUncheck {
+    display: flex;
+    flex-direction: column;
+}
+
+#taskUncheck div {
+    margin: 0.5rem;
+}
+
+#newTask {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+
+

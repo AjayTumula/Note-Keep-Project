@@ -33,7 +33,7 @@
             <button>NEW NOTE</button>
         </div>
         <div class="noteInfo">
-            <section class="noteDescription">
+            <section class="fileInfo">
                 <img src="./assets/filemanager.png" alt="">
                 <h5>NO NOTES FOUND</h5>
                 <p>ADD SOME NOTES FROM THE LEFT COLUMN</p>
@@ -48,25 +48,36 @@
                     <button>CREATE NOTE</button>
                 </div>
             </section>
+
             <section class="viewNote">
                 <div id="noteTitle">
                     <h5>Note Title</h5>
-                    <div id="buttons">
+                    <div class="buttons">
                         <button id="newTaskButton">NEW TASK</button>
                         <button id="deleteNote">DELETE NOTE</button>
                     </div>
                 </div>
                 <div id="noteDescription">
-                    <textarea name="text" id="" cols="30" rows="10"></textarea>
-                    <p>TASKS LIST</p>
-                    <ul id="taskUncheck">
-                        <li>Learning concepts</li>
-                        <li>Practicing the assignments</li>
-                        <li>Working on projects</li>
-                    </ul>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, saepe!</p>
+                    <h4>TASKS LIST</h4>
+                    <div id="taskUncheck">
+                        <div>
+                            <input type="radio"> 
+                            <span>Learning concepts</span> 
+                        </div>
+                        <div>
+                            <input type="radio"> <span>Practicing the assignments</span>
+                        </div>
+                        <div>
+                            <input type="radio"> <span>Working on projects</span>
+                        </div>
+                        
+                    </div>
                 </div>
                 <div id="newTask">
-                    <input type="text" placeholder="TASK NAME">
+                    <div id="#inputTask">
+                        <input type="text" placeholder="TASK NAME">
+                    </div>   
                     <button>CREATE TASK</button>
                 </div>
             </section>
