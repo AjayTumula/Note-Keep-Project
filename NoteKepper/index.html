@@ -12,52 +12,48 @@
     </section>
 
     <section class="pageTwo">
-        <div class="createNote">
+        <div class="createdNote">
             <img src="./assets/Logo-name.png" alt="">
-            <div id="createdNotes">
-                <h5>Note Title</h5>
-                <p>Note Description</p>
-            </div>
-            <div id="createdNotes">
-                <h5>Note Title</h5>
-                <p>Note Description</p>
-            </div>
-            <div id="createdNotes">
-                <h5>Note Title</h5>
-                <p>Note Description</p>
-            </div>
-            <div id="createdNotes">
-                <h5>Note Title</h5>
-                <p>Note Description</p>
-            </div>
-            <button>NEW NOTE</button>
+            <div class="noteList">
+                <!-- <div class="note">
+                    <h5>Note Title</h5>
+                    <p>Note Description</p>
+                </div>
+                <div class="note">
+                    <h5>Note Title</h5>
+                    <p>Note Description</p>
+                </div>  -->
+            </div>   
+            <button class="newNote">NEW NOTE</button>
         </div>
         <div class="noteInfo">
             <section class="fileInfo">
-                <img src="./assets/filemanager.png" alt="">
-                <h5>NO NOTES FOUND</h5>
-                <p>ADD SOME NOTES FROM THE LEFT COLUMN</p>
+                <img id="image" src="./assets/filemanager.png" alt="">
+                <h5 id="heading">NO NOTES FOUND</h5>
+                <p id="paraInfo">ADD SOME NOTES FROM THE LEFT COLUMN</p>
             </section>
             
             <section class="noteCreation">
                 <div class="createNote">
-                    <input type="text" placeholder="NOTE TITLE">
-                    <textarea name="" id="" cols="30" rows="10" placeholder="NOTE DESCRIPTION"></textarea>
+                    <input id="createNoteTitle" type="text" placeholder="NOTE TITLE">
+                    <textarea id="createNoteContent" name="" id="" cols="30" rows="10" placeholder="NOTE DESCRIPTION"></textarea>
                 </div>
                 <div class="createNoteButton">
-                    <button>CREATE NOTE</button>
+                    <button id="createNoteButton">CREATE NOTE</button>
                 </div>
             </section>
 
-            <section class="viewNote">
-                <div id="noteTitle">
-                    <h5>Note Title</h5>
-                    <div class="buttons">
-                        <button id="newTaskButton">NEW TASK</button>
-                        <button id="deleteNote">DELETE NOTE</button>
+                <section class="viewNote">
+                    <div class="viewNoteTitle">
+                        <h5>Note Title</h5>
                     </div>
-                </div>
-                <div id="noteDescription">
+                    
+                        <button id="newTaskButton">NEW TASK</button>
+                        <button id="deleteNoteButton">DELETE NOTE</button>
+                   
+                </section>
+
+                <section id="noteDescription">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, saepe!</p>
                     <h4>TASKS LIST</h4>
                     <div id="taskUncheck">
@@ -71,10 +67,9 @@
                         <div>
                             <input type="radio"> <span>Working on projects</span>
                         </div>
-                        
                     </div>
-                </div>
-            </section>
+                </section>
+            
             <section class="newTask">
                 <div id="inputTask">
                     <input type="text" placeholder="TASK NAME">
