@@ -177,8 +177,8 @@ body {
 }
 
 
-#noteDescription {
-    display: flex;
+.noteDescription {
+    /* display: flex; */
     flex-direction: column;
     justify-content: space-evenly;
     align-items: start;
@@ -189,7 +189,7 @@ body {
     height: 40vh;
 }
 
-#noteDescription h4 {
+.noteDescription h4 {
     margin: 0.2rem 0;
     color: #437cac;
 }

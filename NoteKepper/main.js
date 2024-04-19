@@ -1,7 +1,8 @@
 
 
 let noteRootElement = document.querySelector(".noteList");
-let viewNoteRootElement = document.querySelector(".viewNote")
+let viewNoteRootElement = document.querySelector(".viewNote");
+let noteDescriptionRoot = document.querySelector(".noteDescription");
 let notes = [];
 
 function renderNoteElementsToScreen() {
@@ -23,7 +24,7 @@ noteCreation.style.display = "none";
 let viewNoteTitle = document.querySelector('.viewNote');
 viewNoteTitle.style.display = "none";
 
-let noteDescription = document.querySelector("#noteDescription");
+let noteDescription = document.querySelector(".noteDescription");
 noteDescription.style.display = "none";
 
 let newTask = document.querySelector(".newTask");
@@ -97,8 +98,9 @@ for (let i = 0; i < notes.length; i++) {
         noteCreation.style.display = "none";
         viewNoteTitle.style.display = "block";
         renderViewNote(note);
-        noteDescription.style.display = "block";
         
+        renderNoteDescription(note)
+        noteDescription.style.display = "block";
     });
 }
 
@@ -127,5 +129,24 @@ function renderViewNote(note) {
     viewNoteDiv.appendChild(viewNoteTitle);
     viewNoteDiv.appendChild(newTaskButton);
     viewNoteDiv.appendChild(deleteNoteButton);
+}
+
+let noteDescriptionDiv;
+
+function renderNoteDescription(note) {
+    if(noteDescriptionDiv){
+        noteDescriptionDiv.innerHTML = ' ';
+    } else {
+        noteDescriptionDiv = document.createElement('div');
+        noteDescriptionDiv.classList.add('noteDescription');
+        noteDescriptionRoot.appendChild(noteDescriptionDiv);
+    }
+    
+
+    let noteDescriptionContent = document.createElement('p');
+    noteDescriptionContent.innerText = note.content;
+    noteDescriptionContent.id = 'noteContent'
+
+    noteDescriptionDiv.appendChild(noteDescriptionContent);
 }
 
