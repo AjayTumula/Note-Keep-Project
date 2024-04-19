@@ -159,28 +159,23 @@ body {
     background: #263d3c;
 }
 
-
-
-/* .viewNote button { */
-   /* border: none;
-   background: none; */
-   /* font-size: 1rem;
+.viewNote button { 
+   border: none;
+   background: none;
+    font-size: 1rem;
    color: white;
    padding: 1.5rem;
    border-radius: 15px;
-} */
+}
 
- /* .newTaskButton { 
-    background: #263d3c; */
-    /* margin: 3rem; */
-    /* cursor: pointer;
-} */ 
+ #newTaskButton { 
+    background: #263d3c;   
+} 
 
- /* #deleteNoteButton {
-    background: #ff5858; */
-    /* margin: 4rem; */
-    /* cursor: pointer;
-} */
+ #deleteNoteButton {
+    background: #ff5858; 
+}
+
 
 #noteDescription {
     display: flex;

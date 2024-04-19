@@ -1,10 +1,8 @@
 
 
 let noteRootElement = document.querySelector(".noteList");
-let viewNoteRootElement = document.querySelector(".viewNote");
+let viewNoteRootElement = document.querySelector(".viewNote")
 let notes = [];
-let viewNotes = [];
-
 
 function renderNoteElementsToScreen() {
     if(localStorage.getItem('notes')){
@@ -33,7 +31,8 @@ newTask.style.display = "none";
 
 document.querySelector(".newNote").addEventListener("click", ()=> {
     noteCreation.style.display = "block";
-   
+    viewNoteTitle.style.display = "none";
+    noteDescription.style.display = "none";
 })
 
 document.querySelector("#createNoteButton").addEventListener("click", ()=> {
@@ -44,6 +43,8 @@ document.querySelector("#createNoteButton").addEventListener("click", ()=> {
         title: document.querySelector("#createNoteTitle").value,
         content: document.querySelector("#createNoteContent").value
     }
+
+
     if(document.querySelector("#createNoteTitle").value == "" || document.querySelector("#createNoteContent").value == ""){
         alert("The fields are empty")
     } else {
@@ -58,7 +59,7 @@ document.querySelector("#createNoteButton").addEventListener("click", ()=> {
 function renderNoteToList(note, uniqueID) {
 
     let notediv = document.createElement("div");
-    notediv.classList.add('note',  uniqueID);
+    notediv.classList.add('note', uniqueID);
 
     let noteTitle = document.createElement("h5");
     let noteContent = document.createElement("p");
@@ -74,53 +75,57 @@ function renderNoteToList(note, uniqueID) {
 
     document.querySelector("#createNoteTitle").value = "";
     document.querySelector("#createNoteContent").value = "";
-
+    
 }
 
 function addNoteToLocalStorage(note, uniqueID) {
     note = {...note, uniqueID};
 
     notes.push(note);
-
+    
     localStorage.setItem('notes', JSON.stringify(notes))
 }
 
 renderNoteElementsToScreen()
 
 
+for (let i = 0; i < notes.length; i++) {
+    const note = notes[i];
+    const noteElement = document.querySelector(`.note.${note.uniqueID}`);
+    noteElement.addEventListener("click", () => {
+        console.log("clicked the id:", note.uniqueID);
+        noteCreation.style.display = "none";
+        viewNoteTitle.style.display = "block";
+        renderViewNote(note);
+        noteDescription.style.display = "block";
+        
+    });
+}
 
-document.querySelector('.note').addEventListener('click', ()=> {
-    let uniqueID = 'note' + Math.floor(Math.random() * 1000);
-    viewNoteTitle.style.display = "block";
+let viewNoteDiv; 
 
-    if(localStorage.getItem('notes')) {
-        viewNotes = JSON.parse(localStorage.getItem('notes'));
-        viewNotes.forEach(note => {
-            renderViewNote(note, uniqueID)
-            console.log('.' + uniqueID)
-        })
+function renderViewNote(note) {
+    if (viewNoteDiv) {
+        viewNoteDiv.innerHTML = ''; 
+    } else {
+        viewNoteDiv = document.createElement('div');
+        viewNoteDiv.classList.add('viewNote'); 
+        viewNoteRootElement.appendChild(viewNoteDiv);
     }
-})
-
-
-
-function renderViewNote(viewNote, uniqueID){
-    let viewNoteDiv = document.createElement('div')
-    viewNoteDiv.classList.add('viewNote', uniqueID);
 
     let viewNoteTitle = document.createElement('h5');
-    viewNoteTitle.innerText = viewNote.title;
+    viewNoteTitle.innerText = note.title;
 
     let newTaskButton = document.createElement('button');
     newTaskButton.innerText = 'NEW TASK';
+    newTaskButton.id = 'newTaskButton'; 
 
     let deleteNoteButton = document.createElement('button');
     deleteNoteButton.innerText = 'DELETE NOTE';
+    deleteNoteButton.id = 'deleteNoteButton';
 
     viewNoteDiv.appendChild(viewNoteTitle);
     viewNoteDiv.appendChild(newTaskButton);
     viewNoteDiv.appendChild(deleteNoteButton);
-
-    viewNoteRootElement.appendChild(viewNoteDiv)
-
 }
+
