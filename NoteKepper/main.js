@@ -3,17 +3,9 @@
 let noteRootElement = document.querySelector(".noteList");
 let viewNoteRootElement = document.querySelector(".viewNote");
 let noteDescriptionRoot = document.querySelector(".noteDescription");
+let newTaskRootElement = document.querySelector(".newTask");
 let notes = [];
-
-function renderNoteElementsToScreen() {
-    if(localStorage.getItem('notes')){
-        notes = JSON.parse(localStorage.getItem('notes'))
-        notes.forEach(note => {
-            renderNoteToList(note, note.uniqueID)
-        })
-    }
-}
-
+// /let tasks =  [];
 
 let fileInfo = document.querySelector(".fileInfo");
 fileInfo.style.display = "none";
@@ -30,21 +22,24 @@ noteDescription.style.display = "none";
 let newTask = document.querySelector(".newTask");
 newTask.style.display = "none";
 
+
 document.querySelector(".newNote").addEventListener("click", ()=> {
     noteCreation.style.display = "block";
     viewNoteTitle.style.display = "none";
     noteDescription.style.display = "none";
+    newTask.style.display = "none";
 })
 
-document.querySelector("#createNoteButton").addEventListener("click", ()=> {
-     
+document.querySelector("#createNoteButton").addEventListener("click", ()=> {   
+    
     let uniqueID = 'note' + Math.floor(Math.random() * 1000);
 
     let note = {
         title: document.querySelector("#createNoteTitle").value,
-        content: document.querySelector("#createNoteContent").value
+        content: document.querySelector("#createNoteContent").value,
+        uniqueID: uniqueID,
+        tasks: []
     }
-
 
     if(document.querySelector("#createNoteTitle").value == "" || document.querySelector("#createNoteContent").value == ""){
         alert("The fields are empty")
@@ -52,8 +47,7 @@ document.querySelector("#createNoteButton").addEventListener("click", ()=> {
         addNoteToLocalStorage(note, uniqueID);
         renderNoteToList(note, uniqueID);
         noteCreation.style.display = "none";
-    }
-    
+    } 
 })
 
 
@@ -68,7 +62,6 @@ function renderNoteToList(note, uniqueID) {
     noteTitle.innerText = note.title;
     noteContent.innerText = note.content;
 
-
     notediv.appendChild(noteTitle);
     notediv.appendChild(noteContent);
 
@@ -81,10 +74,18 @@ function renderNoteToList(note, uniqueID) {
 
 function addNoteToLocalStorage(note, uniqueID) {
     note = {...note, uniqueID};
-
-    notes.push(note);
-    
+    notes.push(note);    
     localStorage.setItem('notes', JSON.stringify(notes))
+}
+
+function renderNoteElementsToScreen() {
+   
+    if(localStorage.getItem('notes')){
+        notes = JSON.parse(localStorage.getItem('notes'))
+        notes.forEach(note => {
+            renderNoteToList(note, note.uniqueID)
+        })
+    } 
 }
 
 renderNoteElementsToScreen()
@@ -93,18 +94,26 @@ renderNoteElementsToScreen()
 for (let i = 0; i < notes.length; i++) {
     const note = notes[i];
     const noteElement = document.querySelector(`.note.${note.uniqueID}`);
+
+    console.log(`.note.${note.uniqueID}`)
+
     noteElement.addEventListener("click", () => {
-        console.log("clicked the id:", note.uniqueID);
+        console.log(note.uniqueID)
+        console.log(note.tasks)
         noteCreation.style.display = "none";
+        newTask.style.display = "none";
         viewNoteTitle.style.display = "block";
-        renderViewNote(note);
+        renderViewNote(note);    
+        noteDescription.style.display = "block";  
+        renderNoteDescription(note); 
         
-        renderNoteDescription(note)
-        noteDescription.style.display = "block";
+       
+
     });
 }
 
 let viewNoteDiv; 
+
 
 function renderViewNote(note) {
     if (viewNoteDiv) {
@@ -116,11 +125,17 @@ function renderViewNote(note) {
     }
 
     let viewNoteTitle = document.createElement('h5');
-    viewNoteTitle.innerText = note.title;
+    viewNoteTitle.innerText = note.title;   
 
     let newTaskButton = document.createElement('button');
     newTaskButton.innerText = 'NEW TASK';
-    newTaskButton.id = 'newTaskButton'; 
+    newTaskButton.id = 'newTaskButton';
+
+    newTaskButton.addEventListener("click", ()=> {
+        newTaskRootElement.style.display = "block";
+        BgToBlur()
+        renderNewTask(note)
+    })
 
     let deleteNoteButton = document.createElement('button');
     deleteNoteButton.innerText = 'DELETE NOTE';
@@ -131,22 +146,131 @@ function renderViewNote(note) {
     viewNoteDiv.appendChild(deleteNoteButton);
 }
 
+
+
 let noteDescriptionDiv;
 
-function renderNoteDescription(note) {
+function renderNoteDescription(note, task) {
     if(noteDescriptionDiv){
         noteDescriptionDiv.innerHTML = ' ';
-    } else {
-        noteDescriptionDiv = document.createElement('div');
-        noteDescriptionDiv.classList.add('noteDescription');
-        noteDescriptionRoot.appendChild(noteDescriptionDiv);
-    }
-    
+    } 
+    noteDescriptionDiv = document.createElement('div');
 
     let noteDescriptionContent = document.createElement('p');
     noteDescriptionContent.innerText = note.content;
-    noteDescriptionContent.id = 'noteContent'
-
+  
     noteDescriptionDiv.appendChild(noteDescriptionContent);
+    
+    noteDescriptionRoot.appendChild(noteDescriptionDiv); 
+ 
 }
+
+
+let newTaskDiv;
+
+function renderNewTask(note){
+ 
+    newTaskDiv = document.createElement('div');
+    newTaskDiv.classList.add('newTask');
+    newTaskRootElement.appendChild(newTaskDiv);
+
+    let newTask = document.createElement('input');
+    newTask.id = 'inputTask';
+
+    let taskButton = document.createElement('button');
+    taskButton.innerText = "CREATE TASK";
+    taskButton.id = "createTaskButton";
+
+    taskButton.addEventListener("click", ()=> {
+        let uniqueID = 'task' + Math.floor(Math.random() * 1000);
+
+        let task = newTask.value;
+
+        if(task !== ""){
+            addTasksToNoteLocalStorage(note, task);
+           
+            renderNoteTasksToDescription({value: task})
+              
+            newTask.value = ""; 
+            BgBackToNormal();
+            newTaskRootElement.style.display = "none";
+        } else {
+            alert("Task field is empty");
+        }   
+    })
+
+    newTaskDiv.appendChild(newTask);
+    newTaskDiv.appendChild(taskButton);
+}
+
+
+function addTasksToNoteLocalStorage(note, task) {
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    note.tasks.push(task)
+    console.log(note.tasks)
+    let index = notes.findIndex(item => item.uniqueID === note.uniqueID);
+    console.log(index);
+   
+
+    if(index !== -1) {
+        // notes[index].tasks.push(task);
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }
+    
+    if(note.tasks[index++]){
+        note.tasks.splice(0, note.tasks.length)
+    }
+   
+
+}
+
+
+function renderNoteTasksToDescription(task) {
+
+    let tasksDiv = document.createElement('div');
+    tasksDiv.classList.add('tasksList');
+
+    let taskUncheckDiv = document.createElement('div');
+    taskUncheckDiv.classList.add("#taskUncheck");
+
+    
+    let taskDiv = document.createElement('div');
+    taskDiv.classList.add('task');
+    
+    let inputElement = document.createElement('input');
+    inputElement.type = 'radio';
+
+    let spanElement = document.createElement('span');
+    spanElement.innerText = task.value;
+
+    taskDiv.appendChild(inputElement);
+    taskDiv.appendChild(spanElement);
+
+    taskUncheckDiv.appendChild(taskDiv);
+
+    tasksDiv.appendChild(taskUncheckDiv);
+  
+    noteDescriptionRoot.appendChild(tasksDiv)
+      
+    
+}
+
+
+
+function BgToBlur() {
+        noteDescription.style.opacity = "0.1";
+        viewNoteDiv.style.opacity = "0.1";
+        noteRootElement.style.opacity = "0.1";
+        document.querySelector('#noteListImage').style.opacity = '0.1';
+        document.querySelector('#noteListButton').style.opacity = '0.1';
+}
+
+function BgBackToNormal() {
+        noteDescription.style.opacity = "1";
+        viewNoteDiv.style.opacity = "1";
+        noteRootElement.style.opacity = "1";
+        document.querySelector('#noteListImage').style.opacity = '1';
+        document.querySelector('#noteListButton').style.opacity = '1';
+}
+
 

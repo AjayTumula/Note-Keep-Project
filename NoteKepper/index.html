@@ -13,7 +13,7 @@
 
     <section class="pageTwo">
         <div class="createdNote">
-            <img src="./assets/Logo-name.png" alt="">
+            <img id="noteListImage" src="./assets/Logo-name.png" alt="">
             <div class="noteList">
                 <!-- <div class="note">
                     <h5>Note Title</h5>
@@ -24,7 +24,7 @@
                     <p>Note Description</p>
                 </div>  -->
             </div>   
-            <button class="newNote">NEW NOTE</button>
+            <button id="noteListButton" class="newNote">NEW NOTE</button>
         </div>
         <div class="noteInfo">
             <section class="fileInfo">
@@ -53,28 +53,37 @@
                    
                 </section>
 
-                <div class="noteDescription">
-                    <!-- <p id="noteContent">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, saepe!</p> -->
-                        <!-- <h4>TASKS LIST</h4>
-                        <div id="taskUncheck">
-                            <div>
-                                <input type="radio"> 
-                                <span>Learning concepts</span> 
-                            </div>
-                            <div>
-                                <input type="radio"> <span>Practicing the assignments</span>
-                            </div>
-                            <div>
-                                <input type="radio"> <span>Working on projects</span>
-                            </div>
+                <section class="noteDescription">
+                    
+                        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, saepe!</p> 
+
+                        <h4>TASKS LIST</h4>
+
+                        <div class="tasksList">
+                            
+                            <div id="taskUncheck">
+                                <div class="task">
+                                    <input type="radio"> 
+                                    <span>Learning concepts</span> 
+                                </div>
+                                <div class="task">
+                                   <input type="radio"> <span>Practicing the assignments</span>
+                                </div>
+                                <div class="task">
+                                    <input type="radio"> <span>Working on projects</span>
+                                </div>
+                             </div>
                         </div> -->
-                    </div>
+                            
+                   
+                </section>
             
             <section class="newTask">
-                <div id="inputTask">
-                    <input type="text" placeholder="TASK NAME">
+                <!-- <div id="inputTask">
+                    <input id="taskInput" type="text" placeholder="TASK NAME">
                 </div> 
-                    <button>CREATE TASK</button>     
+
+                    <button id="createTaskButton">CREATE TASK</button>      -->
             </section>
         </div> 
     </section>
