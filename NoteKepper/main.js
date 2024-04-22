@@ -73,7 +73,7 @@ function renderNoteToList(note, uniqueID) {
 }
 
 function addNoteToLocalStorage(note, uniqueID) {
-    note = {...note, uniqueID};
+    note = {...note, uniqueID,  tasks: []};
     notes.push(note);    
     localStorage.setItem('notes', JSON.stringify(notes))
 }
@@ -98,6 +98,8 @@ for (let i = 0; i < notes.length; i++) {
     console.log(`.note.${note.uniqueID}`)
 
     noteElement.addEventListener("click", () => {
+
+
         console.log(note.uniqueID)
         console.log(note.tasks)
         noteCreation.style.display = "none";
@@ -105,9 +107,7 @@ for (let i = 0; i < notes.length; i++) {
         viewNoteTitle.style.display = "block";
         renderViewNote(note);    
         noteDescription.style.display = "block";  
-        renderNoteDescription(note); 
-        
-       
+        renderNoteTasksToDescription(note); 
 
     });
 }
@@ -148,22 +148,23 @@ function renderViewNote(note) {
 
 
 
-let noteDescriptionDiv;
+// let noteDescriptionDiv;
 
-function renderNoteDescription(note, task) {
-    if(noteDescriptionDiv){
-        noteDescriptionDiv.innerHTML = ' ';
-    } 
-    noteDescriptionDiv = document.createElement('div');
+// function renderNoteDescription(note) {
+//     if(noteDescriptionDiv){
+//         noteDescriptionDiv.innerHTML = ' ';
+//     } 
+//     noteDescriptionDiv = document.createElement('div');
 
-    let noteDescriptionContent = document.createElement('p');
-    noteDescriptionContent.innerText = note.content;
+//     let noteDescriptionContent = document.createElement('p');
+//     noteDescriptionContent.innerText = note.content;
   
-    noteDescriptionDiv.appendChild(noteDescriptionContent);
+//     noteDescriptionDiv.appendChild(noteDescriptionContent);
     
-    noteDescriptionRoot.appendChild(noteDescriptionDiv); 
+//     noteDescriptionRoot.appendChild(noteDescriptionDiv); 
+//     renderNoteTasksToDescription(note)
  
-}
+// }
 
 
 let newTaskDiv;
@@ -189,7 +190,7 @@ function renderNewTask(note){
         if(task !== ""){
             addTasksToNoteLocalStorage(note, task);
            
-            renderNoteTasksToDescription({value: task})
+            renderNoteTasksToDescription(note)
               
             newTask.value = ""; 
             BgBackToNormal();
@@ -205,54 +206,68 @@ function renderNewTask(note){
 
 
 function addTasksToNoteLocalStorage(note, task) {
-    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    let notes = JSON.parse(localStorage.getItem('notes'));
     note.tasks.push(task)
-    console.log(note.tasks)
+    // console.log(note.tasks)
     let index = notes.findIndex(item => item.uniqueID === note.uniqueID);
     console.log(index);
-   
 
-    if(index !== -1) {
-        // notes[index].tasks.push(task);
+
+    if (index !== -1) {
+        if (!notes[index].tasks) {  // Ensure note.tasks is initialized
+            notes[index].tasks = [];
+        }
+        notes[index].tasks.push(task);
         localStorage.setItem('notes', JSON.stringify(notes));
     }
-    
-    if(note.tasks[index++]){
-        note.tasks.splice(0, note.tasks.length)
-    }
-   
-
 }
 
 
-function renderNoteTasksToDescription(task) {
-
+function renderNoteTasksToDescription(note) {
+    
     let tasksDiv = document.createElement('div');
     tasksDiv.classList.add('tasksList');
 
     let taskUncheckDiv = document.createElement('div');
-    taskUncheckDiv.classList.add("#taskUncheck");
+    taskUncheckDiv.classList.add("taskUncheck");
 
-    
-    let taskDiv = document.createElement('div');
-    taskDiv.classList.add('task');
-    
-    let inputElement = document.createElement('input');
-    inputElement.type = 'radio';
+    let noteDescriptionContent = document.createElement('p');
+    noteDescriptionContent.innerText = note.content;
 
-    let spanElement = document.createElement('span');
-    spanElement.innerText = task.value;
+    tasksDiv.appendChild(noteDescriptionContent);
 
-    taskDiv.appendChild(inputElement);
-    taskDiv.appendChild(spanElement);
+    let noteTasks = note.tasks || []; 
 
-    taskUncheckDiv.appendChild(taskDiv);
+    if (Array.isArray(noteTasks)) {
+        noteTasks.forEach((task, index) => {
+            let taskDiv = document.createElement('div');
+            taskDiv.classList.add('task');
+
+            let inputId = `taskInput_${note.uniqueID}_${index}`;
+            let inputElement = document.createElement('input');
+            inputElement.type = 'radio';
+            inputElement.id = inputId;
+            inputElement.name = `taskInput_${note.uniqueID}`;
+
+            let spanElement = document.createElement('span');
+            spanElement.innerText = task;
+
+            let labelElement = document.createElement('label');
+            labelElement.setAttribute('for', inputId);
+            labelElement.appendChild(inputElement);
+            labelElement.appendChild(spanElement);
+
+            taskDiv.appendChild(labelElement);
+            taskUncheckDiv.appendChild(taskDiv);
+        });
+    }
+  
 
     tasksDiv.appendChild(taskUncheckDiv);
   
-    noteDescriptionRoot.appendChild(tasksDiv)
-      
-    
+    noteDescriptionRoot.innerHTML = '';
+    noteDescriptionRoot.appendChild(tasksDiv);
+     
 }
 
 
