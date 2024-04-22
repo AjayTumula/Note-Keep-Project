@@ -5,10 +5,9 @@ let viewNoteRootElement = document.querySelector(".viewNote");
 let noteDescriptionRoot = document.querySelector(".noteDescription");
 let newTaskRootElement = document.querySelector(".newTask");
 let notes = [];
-// /let tasks =  [];
 
 let fileInfo = document.querySelector(".fileInfo");
-fileInfo.style.display = "none";
+fileInfo.style.display = "block";
 
 let noteCreation = document.querySelector(".noteCreation");
 noteCreation.style.display = "none";
@@ -28,6 +27,7 @@ document.querySelector(".newNote").addEventListener("click", ()=> {
     viewNoteTitle.style.display = "none";
     noteDescription.style.display = "none";
     newTask.style.display = "none";
+    fileInfo.style.display = "none";
 })
 
 document.querySelector("#createNoteButton").addEventListener("click", ()=> {   
@@ -47,6 +47,7 @@ document.querySelector("#createNoteButton").addEventListener("click", ()=> {
         addNoteToLocalStorage(note, uniqueID);
         renderNoteToList(note, uniqueID);
         noteCreation.style.display = "none";
+        fileInfo.style.display = "none";
     } 
 })
 
@@ -79,7 +80,6 @@ function addNoteToLocalStorage(note, uniqueID) {
 }
 
 function renderNoteElementsToScreen() {
-   
     if(localStorage.getItem('notes')){
         notes = JSON.parse(localStorage.getItem('notes'))
         notes.forEach(note => {
@@ -95,27 +95,21 @@ for (let i = 0; i < notes.length; i++) {
     const note = notes[i];
     const noteElement = document.querySelector(`.note.${note.uniqueID}`);
 
-    console.log(`.note.${note.uniqueID}`)
-
     noteElement.addEventListener("click", () => {
-
-
-        console.log(note.uniqueID)
-        console.log(note.tasks)
+        fileInfo.style.display = "none";
         noteCreation.style.display = "none";
         newTask.style.display = "none";
         viewNoteTitle.style.display = "block";
         renderViewNote(note);    
         noteDescription.style.display = "block";  
         renderNoteTasksToDescription(note); 
-
     });
 }
 
+
 let viewNoteDiv; 
 
-
-function renderViewNote(note) {
+function renderViewNote(note, uniqueID) {
     if (viewNoteDiv) {
         viewNoteDiv.innerHTML = ''; 
     } else {
@@ -141,32 +135,30 @@ function renderViewNote(note) {
     deleteNoteButton.innerText = 'DELETE NOTE';
     deleteNoteButton.id = 'deleteNoteButton';
 
+    deleteNoteButton.addEventListener("click", ()=> {
+        removeElements(uniqueID)
+    })
+
     viewNoteDiv.appendChild(viewNoteTitle);
     viewNoteDiv.appendChild(newTaskButton);
     viewNoteDiv.appendChild(deleteNoteButton);
 }
 
-
-
-// let noteDescriptionDiv;
-
-// function renderNoteDescription(note) {
-//     if(noteDescriptionDiv){
-//         noteDescriptionDiv.innerHTML = ' ';
-//     } 
-//     noteDescriptionDiv = document.createElement('div');
-
-//     let noteDescriptionContent = document.createElement('p');
-//     noteDescriptionContent.innerText = note.content;
-  
-//     noteDescriptionDiv.appendChild(noteDescriptionContent);
+function removeElements(id) {
+    let notes = JSON.parse(localStorage.getItem('notes'));
+    let index = notes.findIndex(note => note.uniqueID === id);
     
-//     noteDescriptionRoot.appendChild(noteDescriptionDiv); 
-//     renderNoteTasksToDescription(note)
- 
-// }
+    notes.splice(index, 1);
+    localStorage.setItem('notes', JSON.stringify(notes));
+    
+            noteDescription.style.display = "none";
+            viewNoteRootElement.style.display = "none";      
+            newTaskRootElement.style.display = "none";
+            noteCreation.style.display = "none";  
 
+    }
 
+    
 let newTaskDiv;
 
 function renderNewTask(note){
@@ -183,7 +175,6 @@ function renderNewTask(note){
     taskButton.id = "createTaskButton";
 
     taskButton.addEventListener("click", ()=> {
-        let uniqueID = 'task' + Math.floor(Math.random() * 1000);
 
         let task = newTask.value;
 
@@ -208,13 +199,11 @@ function renderNewTask(note){
 function addTasksToNoteLocalStorage(note, task) {
     let notes = JSON.parse(localStorage.getItem('notes'));
     note.tasks.push(task)
-    // console.log(note.tasks)
+    
     let index = notes.findIndex(item => item.uniqueID === note.uniqueID);
-    console.log(index);
-
-
+    
     if (index !== -1) {
-        if (!notes[index].tasks) {  // Ensure note.tasks is initialized
+        if (!notes[index].tasks) {  
             notes[index].tasks = [];
         }
         notes[index].tasks.push(task);
@@ -261,13 +250,11 @@ function renderNoteTasksToDescription(note) {
             taskUncheckDiv.appendChild(taskDiv);
         });
     }
-  
 
     tasksDiv.appendChild(taskUncheckDiv);
   
     noteDescriptionRoot.innerHTML = '';
-    noteDescriptionRoot.appendChild(tasksDiv);
-     
+    noteDescriptionRoot.appendChild(tasksDiv); 
 }
 
 

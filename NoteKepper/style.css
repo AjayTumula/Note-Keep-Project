@@ -86,20 +86,25 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    color: white;  
+    color: white; 
+    margin-left: 25rem;
 }
 
 .fileInfo img {
-    height: 40vh;
+    width: 60%; 
+    height: 50vh;
+  
 }
 
 .fileInfo h5 {
     font-weight: bold;
     margin: 0.8rem 0;
+    margin-left: 10rem;
 }
 
 .fileInfo p {
     font-size: 8px;
+    margin-left: 8rem;
 }
 
 .noteCreation {
